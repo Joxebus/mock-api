@@ -12,7 +12,6 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 public class Operation {
 
     private String method;

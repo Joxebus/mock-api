@@ -55,7 +55,7 @@ public class FileServiceLocal implements FileService {
         try {
             File downloaded = new File(fileUploadFolder, filename);
             if(!downloaded.exists()) {
-                throw new Exception("File [${filename}] doesn't exist");
+                throw new Exception("File ["+filename+"] doesn't exist");
             }
             fileResponse.setSuccess(true);
             fileResponse.setFile(downloaded);

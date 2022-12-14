@@ -13,6 +13,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiResponse {
-    private String path;
-    private Map<String, String[]> parameters;
+    private int statusCode;
+    private String body;
 }
