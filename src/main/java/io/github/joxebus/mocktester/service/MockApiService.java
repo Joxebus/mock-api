@@ -30,7 +30,6 @@ import io.github.joxebus.mocktester.model.Endpoint;
 import io.github.joxebus.mocktester.model.EndpointConfiguration;
 import io.github.joxebus.mocktester.model.FileResponse;
 import io.github.joxebus.mocktester.model.ResponseError;
-import io.github.joxebus.mocktester.service.common.FileService;
 import lombok.extern.slf4j.Slf4j;
 
 @Service

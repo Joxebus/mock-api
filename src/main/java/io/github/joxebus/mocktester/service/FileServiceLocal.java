@@ -1,4 +1,4 @@
-package io.github.joxebus.mocktester.service.common;
+package io.github.joxebus.mocktester.service;
 
 import java.io.File;
 import java.io.FileOutputStream;

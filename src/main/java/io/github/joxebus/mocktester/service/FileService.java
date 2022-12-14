@@ -1,7 +1,6 @@
-package io.github.joxebus.mocktester.service.common;
+package io.github.joxebus.mocktester.service;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.List;
 
 import io.github.joxebus.mocktester.model.FileResponse;
