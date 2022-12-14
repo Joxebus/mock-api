@@ -7,14 +7,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public final class FileResponseError {
+public final class ResponseError {
     private String message;
 
-    private FileResponseError(String message) {
+    private ResponseError(String message) {
         this.message = message;
     }
 
-    public static FileResponseError newError(String errorMessage) {
-        return new FileResponseError(errorMessage);
+    public static ResponseError newError(String errorMessage) {
+        return new ResponseError(errorMessage);
     }
 }

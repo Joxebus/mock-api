@@ -3,8 +3,11 @@ package io.github.joxebus.mocktester.service.common;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -12,9 +15,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import io.github.joxebus.mocktester.model.FileResponse;
-import io.github.joxebus.mocktester.model.FileResponseError;
+import io.github.joxebus.mocktester.model.ResponseError;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class FileServiceLocal implements FileService {
 
     @Value("${file.upload.folder}")
@@ -35,16 +40,16 @@ public class FileServiceLocal implements FileService {
             if(Objects.isNull(file)) {
                 throw new Exception("Failed to create empty file");
             }
-
             String name = filename.isBlank() ? UUID.randomUUID().toString() : filename;
             File destination = new File(fileUploadFolder, name);
+            log.info("File saved at: {}", destination.getAbsolutePath());
             FileOutputStream fos = new FileOutputStream(destination);
             fos.write(Files.readAllBytes(file.getAbsoluteFile().toPath()));
             fos.close();
 
             fileResponse.setSuccess(true);
         } catch(Exception e) {
-            fileResponse.setError(FileResponseError.newError(e.getMessage()));
+            fileResponse.setError(ResponseError.newError(e.getMessage()));
         }
         return fileResponse;
     }
@@ -60,8 +65,16 @@ public class FileServiceLocal implements FileService {
             fileResponse.setSuccess(true);
             fileResponse.setFile(downloaded);
         } catch(Exception e) {
-            fileResponse.setError(FileResponseError.newError(e.getMessage()));
+            fileResponse.setError(ResponseError.newError(e.getMessage()));
         }
         return fileResponse;
+    }
+
+    @Override
+    public List<String> filesWithExtension(String extension) {
+        File folder = new File(fileUploadFolder);
+        return Arrays.stream(folder.list())
+                .filter(fileName -> fileName.endsWith(extension))
+                .collect(Collectors.toList());
     }
 }

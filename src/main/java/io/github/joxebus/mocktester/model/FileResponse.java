@@ -12,6 +12,6 @@ import lombok.ToString;
 public class FileResponse {
     private boolean success;
     private File file;
-    private FileResponseError error;
+    private ResponseError error;
 
 }

@@ -1,6 +1,8 @@
 package io.github.joxebus.mocktester.model;
 
+import java.util.Collections;
 import java.util.Map;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,5 +16,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ApiResponse {
     private int statusCode;
-    private String body;
+    private Object body;
+    private Map<String, String[]> headers = Collections.emptyMap();
 }

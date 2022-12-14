@@ -1,7 +1,10 @@
 package io.github.joxebus.mocktester.controller;
 
-import static io.github.joxebus.mocktester.common.Constants.NOT_FOUND;
+import static io.github.joxebus.mocktester.common.Constants.PATH_API;
+import static io.github.joxebus.mocktester.common.Constants.PATH_API_LENGTH;
+import static io.github.joxebus.mocktester.common.Constants.PATH_WILDCARD;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import io.github.joxebus.mocktester.model.ApiConfiguration;
 import io.github.joxebus.mocktester.model.ApiResponse;
-import io.github.joxebus.mocktester.model.FileResponse;
+import io.github.joxebus.mocktester.model.EndpointConfiguration;
 import io.github.joxebus.mocktester.service.MockApiService;
 
 @Controller
@@ -28,26 +31,36 @@ public class MockApiController {
         this.mockApiService = mockApiService;
     }
 
-    @RequestMapping("/api/**")
-    public ResponseEntity<String> handle(HttpServletRequest request) {
-        String uri = request.getRequestURI().substring(4);
+    @RequestMapping(value = PATH_API+PATH_WILDCARD, produces = "application/json")
+    public ResponseEntity<Object> handle(HttpServletRequest request) {
+        String uri = request.getRequestURI().substring(PATH_API_LENGTH);
         ApiResponse apiResponse = mockApiService.getOperation(uri, request.getMethod());
-        return apiResponse.getStatusCode() == NOT_FOUND ? ResponseEntity.notFound().build():
-            ResponseEntity.status(apiResponse.getStatusCode())
-                .body(apiResponse.getBody());
+        return buildResponseWithHeaders(apiResponse);
     }
 
-    @PostMapping("/config")
-    public ResponseEntity<FileResponse> config(@RequestBody ApiConfiguration apiConfiguration) {
-        FileResponse fileResponse = mockApiService.createOrUpdate(apiConfiguration);
-        return fileResponse.isSuccess() ? ResponseEntity.ok(fileResponse)
-                : ResponseEntity.internalServerError().body(fileResponse);
+    @PostMapping(value = "/config", produces = "application/json")
+    public ResponseEntity<Object> config(@RequestBody ApiConfiguration apiConfiguration) {
+        ApiResponse apiResponse = mockApiService.createOrUpdate(apiConfiguration);
+        return buildResponseWithHeaders(apiResponse);
     }
 
-    @GetMapping("/config")
+    @GetMapping(value = "/config", produces = "application/json")
     public ResponseEntity<ApiConfiguration> config(@RequestParam String apiName) {
         ApiConfiguration apiConfiguration = mockApiService.getConfiguration(apiName);
         return Objects.nonNull(apiConfiguration) ? ResponseEntity.ok(apiConfiguration)
                 : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping(value = "/endpoints", produces = "application/json")
+    public ResponseEntity<List<EndpointConfiguration>> endpoints() {
+        List<EndpointConfiguration> availableEndpoints = mockApiService.getEndpoints();
+        return ResponseEntity.ok(availableEndpoints);
+    }
+
+    private ResponseEntity<Object> buildResponseWithHeaders(ApiResponse apiResponse) {
+        ResponseEntity.BodyBuilder responseEntityBuilder = ResponseEntity.status(apiResponse.getStatusCode());
+        apiResponse.getHeaders().entrySet()
+                .forEach( header -> responseEntityBuilder.header(header.getKey(), header.getValue()));
+        return responseEntityBuilder.body(apiResponse.getBody());
     }
 }

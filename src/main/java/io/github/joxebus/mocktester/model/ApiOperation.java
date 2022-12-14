@@ -2,7 +2,6 @@ package io.github.joxebus.mocktester.model;
 
 import java.util.Map;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,8 +11,11 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
-public class ApiConfiguration {
-    private String name;
-    private Map<String, ApiOperation> operations;
+public class ApiOperation {
+
+    private String method;
+    private Map<String, String[]> headers;
+    private int statusCode;
+    private String body;
+
 }

@@ -1,6 +1,6 @@
 package io.github.joxebus.mocktester.model;
 
-import java.util.Map;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,11 +12,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class Operation {
-
-    private String method;
-    private Map<String, String[]> headers;
-    private int statusCode;
-    private String body;
-
+@AllArgsConstructor
+public class EndpointConfiguration {
+    private String config;
+    private List<Endpoint> endpoints;
 }
