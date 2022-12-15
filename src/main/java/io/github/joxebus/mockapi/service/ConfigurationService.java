@@ -1,7 +1,7 @@
-package io.github.joxebus.mocktester.service;
+package io.github.joxebus.mockapi.service;
 
-import io.github.joxebus.mocktester.model.ApiConfiguration;
-import io.github.joxebus.mocktester.model.ApiResponse;
+import io.github.joxebus.mockapi.model.ApiConfiguration;
+import io.github.joxebus.mockapi.model.ApiResponse;
 
 public interface ConfigurationService {
 

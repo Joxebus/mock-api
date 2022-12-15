@@ -1,4 +1,4 @@
-package io.github.joxebus.mocktester
+package io.github.joxebus.mockapi
 
 import spock.lang.Specification
 

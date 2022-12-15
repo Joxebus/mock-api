@@ -1,9 +1,9 @@
-package io.github.joxebus.mocktester.service;
+package io.github.joxebus.mockapi.service;
 
 import java.io.File;
 import java.util.List;
 
-import io.github.joxebus.mocktester.model.FileResponse;
+import io.github.joxebus.mockapi.model.FileResponse;
 
 public interface FileService {
 

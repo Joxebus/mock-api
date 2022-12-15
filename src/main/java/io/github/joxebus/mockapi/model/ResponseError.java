@@ -1,4 +1,4 @@
-package io.github.joxebus.mocktester.model;
+package io.github.joxebus.mockapi.model;
 
 import lombok.Getter;
 import lombok.Setter;

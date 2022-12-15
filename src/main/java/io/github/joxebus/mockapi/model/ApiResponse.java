@@ -1,4 +1,4 @@
-package io.github.joxebus.mocktester.model;
+package io.github.joxebus.mockapi.model;
 
 import java.util.Collections;
 import java.util.Map;

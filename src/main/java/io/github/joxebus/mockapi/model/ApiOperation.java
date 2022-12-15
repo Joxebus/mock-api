@@ -1,6 +1,7 @@
-package io.github.joxebus.mocktester.model;
+package io.github.joxebus.mockapi.model;
 
-import lombok.AllArgsConstructor;
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,9 +11,11 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
-public class Endpoint {
-    private String href;
+public class ApiOperation {
+
     private String method;
+    private Map<String, String[]> headers;
     private int statusCode;
+    private String body;
+
 }

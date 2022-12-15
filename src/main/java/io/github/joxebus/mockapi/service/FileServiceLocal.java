@@ -1,4 +1,4 @@
-package io.github.joxebus.mocktester.service;
+package io.github.joxebus.mockapi.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,8 +15,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import io.github.joxebus.mocktester.model.FileResponse;
-import io.github.joxebus.mocktester.model.ResponseError;
+import io.github.joxebus.mockapi.model.FileResponse;
+import io.github.joxebus.mockapi.model.ResponseError;
 import lombok.extern.slf4j.Slf4j;
 
 @Service

@@ -1,10 +1,10 @@
-package io.github.joxebus.mocktester.utils;
+package io.github.joxebus.mockapi.utils;
 
-import static io.github.joxebus.mocktester.common.Constants.METHOD_NOT_ALLOWED;
-import static io.github.joxebus.mocktester.common.Constants.NOT_FOUND_CODE;
-import static io.github.joxebus.mocktester.common.Constants.PATH_CONFIG;
-import static io.github.joxebus.mocktester.common.Constants.PATH_MOCK_API;
-import static io.github.joxebus.mocktester.common.Constants.SLASH;
+import static io.github.joxebus.mockapi.common.Constants.METHOD_NOT_ALLOWED;
+import static io.github.joxebus.mockapi.common.Constants.NOT_FOUND_CODE;
+import static io.github.joxebus.mockapi.common.Constants.PATH_CONFIG;
+import static io.github.joxebus.mockapi.common.Constants.PATH_MOCK_API;
+import static io.github.joxebus.mockapi.common.Constants.SLASH;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,12 +18,12 @@ import org.springframework.http.ResponseEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
-import io.github.joxebus.mocktester.model.ApiConfiguration;
-import io.github.joxebus.mocktester.model.ApiOperation;
-import io.github.joxebus.mocktester.model.ApiResponse;
-import io.github.joxebus.mocktester.model.Endpoint;
-import io.github.joxebus.mocktester.model.EndpointConfiguration;
-import io.github.joxebus.mocktester.model.ResponseError;
+import io.github.joxebus.mockapi.model.ApiConfiguration;
+import io.github.joxebus.mockapi.model.ApiOperation;
+import io.github.joxebus.mockapi.model.ApiResponse;
+import io.github.joxebus.mockapi.model.Endpoint;
+import io.github.joxebus.mockapi.model.EndpointConfiguration;
+import io.github.joxebus.mockapi.model.ResponseError;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

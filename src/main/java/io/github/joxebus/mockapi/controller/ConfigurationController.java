@@ -1,7 +1,7 @@
-package io.github.joxebus.mocktester.controller;
+package io.github.joxebus.mockapi.controller;
 
-import static io.github.joxebus.mocktester.common.Constants.PATH_CONFIG;
-import static io.github.joxebus.mocktester.utils.MappingUtils.buildResponseWithHeaders;
+import static io.github.joxebus.mockapi.common.Constants.PATH_CONFIG;
+import static io.github.joxebus.mockapi.utils.MappingUtils.buildResponseWithHeaders;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import org.springframework.http.ResponseEntity;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import io.github.joxebus.mocktester.model.ApiConfiguration;
-import io.github.joxebus.mocktester.service.ConfigurationService;
+import io.github.joxebus.mockapi.model.ApiConfiguration;
+import io.github.joxebus.mockapi.service.ConfigurationService;
 
 @Controller
 public class ConfigurationController {

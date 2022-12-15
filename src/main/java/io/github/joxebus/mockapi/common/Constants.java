@@ -1,4 +1,4 @@
-package io.github.joxebus.mocktester.common;
+package io.github.joxebus.mockapi.common;
 
 public interface Constants {
     // File constants

@@ -1,4 +1,4 @@
-package io.github.joxebus.mocktester;
+package io.github.joxebus.mockapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
