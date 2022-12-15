@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -73,8 +74,8 @@ public class FileServiceLocal implements FileService {
     @Override
     public List<String> filesWithExtension(String extension) {
         File folder = new File(fileUploadFolder);
-        return Arrays.stream(folder.list())
+        return folder.list() != null ? Arrays.stream(folder.list())
                 .filter(fileName -> fileName.endsWith(extension))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()) : Collections.emptyList();
     }
 }
