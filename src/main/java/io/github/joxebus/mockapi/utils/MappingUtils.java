@@ -5,6 +5,7 @@ import static io.github.joxebus.mockapi.common.Constants.NOT_FOUND_CODE;
 import static io.github.joxebus.mockapi.common.Constants.PATH_CONFIG;
 import static io.github.joxebus.mockapi.common.Constants.PATH_MOCK_API;
 import static io.github.joxebus.mockapi.common.Constants.SLASH;
+import static io.github.joxebus.mockapi.common.Constants.UNAUTHORIZED;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +44,8 @@ public final class MappingUtils {
     }
 
     public static ApiResponse mapApiConfigurationToApiResponse(ApiConfiguration apiConfiguration,
-                                                               String operationName, String method) {
+                                                               String operationName, String method,
+                                                               String authorization) {
         ApiResponse apiResponse = new ApiResponse();
 
         if(Objects.isNull(apiConfiguration) || !apiConfiguration.getOperations().containsKey(operationName)) {
@@ -54,7 +56,16 @@ public final class MappingUtils {
             return apiResponse;
         }
 
-        ApiOperation operation = apiConfiguration.getOperations().get(operationName);
+        ApiOperation operation = apiConfiguration.findOperation(operationName);
+
+        if(apiConfiguration.isSecured() && !apiConfiguration.getAuthConfig().equalsIgnoreCase(authorization)) {
+            String message = String.format("UNAUTHORIZED missing or wrong auth info for [%s]", operationName);
+            log.warn(message);
+            apiResponse.setStatusCode(UNAUTHORIZED);
+            apiResponse.setBody(ResponseError.newError(message));
+            return apiResponse;
+        }
+
         if(method.equalsIgnoreCase(operation.getMethod())) {
             apiResponse.setHeaders(operation.getHeaders());
             apiResponse.setStatusCode(operation.getStatusCode());
@@ -94,8 +105,7 @@ public final class MappingUtils {
 
     public static ResponseEntity<Object> buildResponseWithHeaders(ApiResponse apiResponse) {
         ResponseEntity.BodyBuilder responseEntityBuilder = ResponseEntity.status(apiResponse.getStatusCode());
-        apiResponse.getHeaders().entrySet()
-                .forEach( header -> responseEntityBuilder.header(header.getKey(), header.getValue()));
+        apiResponse.getHeaders().forEach(responseEntityBuilder::header);
         return responseEntityBuilder.body(apiResponse.getBody());
     }
 }

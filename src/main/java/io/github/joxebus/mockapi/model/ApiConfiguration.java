@@ -1,5 +1,6 @@
 package io.github.joxebus.mockapi.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -15,5 +16,11 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ApiConfiguration {
     private String name;
-    private Map<String, ApiOperation> operations;
+    private boolean secured;
+    private String authConfig;
+    private Map<String, ApiOperation> operations = new HashMap<>();
+
+    public ApiOperation findOperation(String operationName) {
+        return operations.get(operationName);
+    }
 }

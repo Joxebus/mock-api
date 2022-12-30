@@ -16,7 +16,7 @@ import io.github.joxebus.mockapi.service.MockApiService;
 @Controller
 public class MockApiController {
 
-    private MockApiService mockApiService;
+    private final MockApiService mockApiService;
 
     public MockApiController(MockApiService mockApiService) {
         this.mockApiService = mockApiService;
@@ -24,7 +24,7 @@ public class MockApiController {
 
     @RequestMapping(value = PATH_MOCK_API +PATH_WILDCARD, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> mockApiForRequest(HttpServletRequest request) {
-        return buildResponseWithHeaders(mockApiService.getMockApiOperation(request.getRequestURI(), request.getMethod()));
+        return buildResponseWithHeaders(mockApiService.getMockApiOperation(request));
     }
 
 }

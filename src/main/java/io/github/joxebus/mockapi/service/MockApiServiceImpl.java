@@ -7,6 +7,8 @@ import static io.github.joxebus.mockapi.common.Constants.YAML_EXT;
 import static io.github.joxebus.mockapi.utils.MappingUtils.mapApiConfigurationToApiResponse;
 import static io.github.joxebus.mockapi.utils.MappingUtils.mapYamlFileToApiConfiguration;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Service;
 
 import io.github.joxebus.mockapi.model.ApiConfiguration;
@@ -26,7 +28,10 @@ public class MockApiServiceImpl implements MockApiService {
     }
 
     @Override
-    public ApiResponse getMockApiOperation(String uri, String method) {
+    public ApiResponse getMockApiOperation(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        String method = request.getMethod();
+        String authorization = request.getHeader("Authorization");
         String[] uriParts = uri.substring(PATH_MOCK_API_LENGTH+1).split(SLASH);
         String fileName = uriParts[0];
         String operationName = uriParts[1];
@@ -34,7 +39,7 @@ public class MockApiServiceImpl implements MockApiService {
         ApiResponse apiResponse = null;
         if(fileResponse.isSuccess()) {
             ApiConfiguration apiConfiguration = mapYamlFileToApiConfiguration(fileResponse.getFile());
-            apiResponse = mapApiConfigurationToApiResponse(apiConfiguration, operationName, method);
+            apiResponse = mapApiConfigurationToApiResponse(apiConfiguration, operationName, method, authorization);
         } else {
             String message = String.format("Configuration not found for URI [%s]", uri);
             log.warn(message);

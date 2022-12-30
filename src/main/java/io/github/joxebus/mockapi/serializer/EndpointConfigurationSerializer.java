@@ -11,11 +11,8 @@ import io.github.joxebus.mockapi.model.EndpointConfiguration;
 
 public class EndpointConfigurationSerializer extends StdSerializer<EndpointConfiguration> {
 
-    private EndpointSerializer endpointSerializer;
-
     public EndpointConfigurationSerializer(Class<EndpointConfiguration> type) {
         super(type);
-        this.endpointSerializer = new EndpointSerializer(Endpoint.class);
     }
 
     @Override

@@ -12,7 +12,7 @@ import io.github.joxebus.mockapi.model.ApiOperation;
 
 public class ApiConfigurationSerializer extends StdSerializer<ApiConfiguration> {
 
-    private ApiOperationSerializer apiOperationSerializer;
+    private final ApiOperationSerializer apiOperationSerializer;
 
     public ApiConfigurationSerializer(Class<ApiConfiguration> type) {
         super(type);
@@ -23,9 +23,8 @@ public class ApiConfigurationSerializer extends StdSerializer<ApiConfiguration> 
     public void serialize(ApiConfiguration value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
         gen.writeStringField("name", value.getName());
-
-        //gen.writeObjectField("operations", value.getOperations());
-
+        gen.writeBooleanField("secured", value.isSecured());
+        gen.writeStringField("authConfig", value.getAuthConfig());
         gen.writeObjectFieldStart("operations");
         for(Map.Entry<String, ApiOperation> apiOperationEntry : value.getOperations().entrySet()) {
             gen.writeObjectFieldStart(apiOperationEntry.getKey());
