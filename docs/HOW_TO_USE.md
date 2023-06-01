@@ -25,6 +25,13 @@ A postman [collection](assets/samples/Mock_REST_API.postman_collection.json "Moc
 Create API configuration
 ![Create configuration](assets/img/config_post.png "Create configuration")
 
+MockAPI support auth configuration, please refer to the Postman collection to see
+the samples, when `secured` is set as true you need to specify the `Authorization` header on your
+request with the password set on your configuration.
+
+![Create configuration secured](assets/img/config_secured_post.png "Create configuration secured")
+
+
 Show API configuration
 ![Show configuration](assets/img/config_get.png "Show configuration")
 

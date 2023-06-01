@@ -11,12 +11,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import io.github.joxebus.mockapi.model.ApiConfiguration;
-import io.github.joxebus.mockapi.model.ApiOperation;
+import io.github.joxebus.mockapi.model.ApiPath;
 import io.github.joxebus.mockapi.model.Endpoint;
 import io.github.joxebus.mockapi.model.EndpointConfiguration;
 import io.github.joxebus.mockapi.model.ResponseError;
 import io.github.joxebus.mockapi.serializer.ApiConfigurationSerializer;
-import io.github.joxebus.mockapi.serializer.ApiOperationSerializer;
+import io.github.joxebus.mockapi.serializer.ApiPathSerializer;
 import io.github.joxebus.mockapi.serializer.EndpointConfigurationSerializer;
 import io.github.joxebus.mockapi.serializer.EndpointSerializer;
 import io.github.joxebus.mockapi.serializer.ResponseErrorSerializer;
@@ -33,7 +33,7 @@ public class Config {
         SimpleModule customSerializersModule = new SimpleModule();
         customSerializersModule.addSerializer(Endpoint.class, new EndpointSerializer(Endpoint.class));
         customSerializersModule.addSerializer(EndpointConfiguration.class, new EndpointConfigurationSerializer(EndpointConfiguration.class));
-        customSerializersModule.addSerializer(ApiOperation.class, new ApiOperationSerializer(ApiOperation.class));
+        customSerializersModule.addSerializer(ApiPath.class, new ApiPathSerializer(ApiPath.class));
         customSerializersModule.addSerializer(ApiConfiguration.class, new ApiConfigurationSerializer(ApiConfiguration.class));
         customSerializersModule.addSerializer(ResponseError.class, new ResponseErrorSerializer(ResponseError.class));
 

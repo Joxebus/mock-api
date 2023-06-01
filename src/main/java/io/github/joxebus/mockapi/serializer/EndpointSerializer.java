@@ -15,15 +15,15 @@ public class EndpointSerializer extends StdSerializer<Endpoint> {
     }
 
     @Override
-    public void serialize(Endpoint value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(Endpoint endpoint, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
-        genEndpoint(value, gen);
+        genEndpoint(endpoint, gen);
         gen.writeEndObject();
     }
 
-    public void genEndpoint(Endpoint value, JsonGenerator gen) throws IOException {
-        gen.writeStringField("href", value.getHref());
-        gen.writeStringField("method", value.getMethod());
-        gen.writeNumberField("statusCode", value.getStatusCode());
+    public void genEndpoint(Endpoint endpoint, JsonGenerator gen) throws IOException {
+        gen.writeStringField("href", endpoint.getHref());
+        gen.writeStringField("method", endpoint.getMethod());
+        gen.writeNumberField("statusCode", endpoint.getStatusCode());
     }
 }

@@ -1,7 +1,5 @@
 package io.github.joxebus.mockapi.model;
 
-import java.util.Map;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,11 +11,10 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiOperation {
+public class ApiContact {
 
-    private String method;
-    private Map<String, String[]> headers;
-    private int statusCode;
-    private String body;
+    private String name;
+    private String url;
+    private String email;
 
 }

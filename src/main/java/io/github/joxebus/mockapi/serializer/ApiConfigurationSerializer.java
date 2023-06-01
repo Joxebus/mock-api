@@ -8,30 +8,39 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import io.github.joxebus.mockapi.model.ApiConfiguration;
-import io.github.joxebus.mockapi.model.ApiOperation;
+import io.github.joxebus.mockapi.model.ApiPath;
 
 public class ApiConfigurationSerializer extends StdSerializer<ApiConfiguration> {
 
-    private final ApiOperationSerializer apiOperationSerializer;
+    private final ApiPathSerializer apiOperationSerializer;
 
     public ApiConfigurationSerializer(Class<ApiConfiguration> type) {
         super(type);
-        this.apiOperationSerializer = new ApiOperationSerializer(ApiOperation.class);
+        this.apiOperationSerializer = new ApiPathSerializer(ApiPath.class);
     }
 
     @Override
-    public void serialize(ApiConfiguration value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(ApiConfiguration apiConfiguration, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
-        gen.writeStringField("name", value.getName());
-        gen.writeBooleanField("secured", value.isSecured());
-        gen.writeStringField("authConfig", value.getAuthConfig());
-        gen.writeObjectFieldStart("operations");
-        for(Map.Entry<String, ApiOperation> apiOperationEntry : value.getOperations().entrySet()) {
+        genApiConfiguration(apiConfiguration, gen);
+        gen.writeEndObject();
+    }
+
+    private void genApiConfiguration(ApiConfiguration apiConfiguration, JsonGenerator gen) throws IOException {
+        gen.writeStringField("name", apiConfiguration.getName());
+        gen.writeStringField("description", apiConfiguration.getDescription());
+        gen.writeStringField("termsOfService", apiConfiguration.getTermsOfService());
+        gen.writeStringField("version", apiConfiguration.getVersion());
+        gen.writeObjectField("contact", apiConfiguration.getContact());
+        gen.writeObjectField("license", apiConfiguration.getLicense());
+        gen.writeBooleanField("secured", apiConfiguration.isSecured());
+        gen.writeStringField("authConfig", apiConfiguration.getAuthConfig());
+        gen.writeObjectFieldStart("paths");
+        for(Map.Entry<String, ApiPath> apiOperationEntry : apiConfiguration.getPaths().entrySet()) {
             gen.writeObjectFieldStart(apiOperationEntry.getKey());
-            apiOperationSerializer.genApiOperation(apiOperationEntry.getValue(), gen);
+            apiOperationSerializer.genApiPath(apiOperationEntry.getValue(), gen);
             gen.writeEndObject();
         }
-        gen.writeEndObject();
         gen.writeEndObject();
     }
 }

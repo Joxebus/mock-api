@@ -15,9 +15,9 @@ public class ResponseErrorSerializer extends StdSerializer<ResponseError> {
     }
 
     @Override
-    public void serialize(ResponseError value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(ResponseError responseError, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
-        gen.writeStringField("message", value.getMessage());
+        gen.writeStringField("message", responseError.getMessage());
         gen.writeEndObject();
     }
 }

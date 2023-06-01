@@ -1,4 +1,4 @@
-# GraalVM Native Support
+# GraalVM Native Support (WIP)
 
 This project has been configured to let you generate either a lightweight container or a native executable.
 It is also possible to run your tests in a native image.

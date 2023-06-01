@@ -16,11 +16,16 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ApiConfiguration {
     private String name;
+    private String description;
+    private String termsOfService; // URL
+    private String version;
+    private ApiContact contact;
+    private ApiLicense license;
     private boolean secured;
     private String authConfig;
-    private Map<String, ApiOperation> operations = new HashMap<>();
+    private Map<String, ApiPath> paths = new HashMap<>();
 
-    public ApiOperation findOperation(String operationName) {
-        return operations.get(operationName);
+    public ApiPath findPath(String operationName) {
+        return paths.get(operationName);
     }
 }

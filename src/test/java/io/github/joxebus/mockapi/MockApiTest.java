@@ -7,7 +7,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import io.github.joxebus.mockapi.model.ApiConfiguration;
-import io.github.joxebus.mockapi.model.ApiOperation;
+import io.github.joxebus.mockapi.model.ApiPath;
 
 class MockApiTest {
 
@@ -22,7 +22,7 @@ class MockApiTest {
 
 		Map<String, String[]> headers = Map.of("author", new String[]{"Omar Bautista"});
 
-		ApiOperation get = new ApiOperation();
+		ApiPath get = new ApiPath();
 		get.setMethod("get");
 		get.setStatusCode(200);
 		get.setHeaders(headers);
@@ -33,14 +33,14 @@ class MockApiTest {
 				"          \"chargable\": false\n" +
 				"        }");
 
-		apiConfiguration.setOperations(Map.of("GET_CODE", get));
+		apiConfiguration.setPaths(Map.of("GET_CODE", get));
 
-		ApiOperation post = new ApiOperation();
+		ApiPath post = new ApiPath();
 		post.setMethod("post");
 		post.setStatusCode(201);
 		post.setHeaders(headers);
 
-		apiConfiguration.setOperations(Map.of("GET_CODE", get, "POST_CODE", post));
+		apiConfiguration.setPaths(Map.of("GET_CODE", get, "POST_CODE", post));
 		return apiConfiguration;
 	}
 

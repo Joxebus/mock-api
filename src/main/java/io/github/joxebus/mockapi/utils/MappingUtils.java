@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
 import io.github.joxebus.mockapi.model.ApiConfiguration;
-import io.github.joxebus.mockapi.model.ApiOperation;
+import io.github.joxebus.mockapi.model.ApiPath;
 import io.github.joxebus.mockapi.model.ApiResponse;
 import io.github.joxebus.mockapi.model.Endpoint;
 import io.github.joxebus.mockapi.model.EndpointConfiguration;
@@ -33,7 +33,7 @@ public final class MappingUtils {
     public static EndpointConfiguration mapApiConfigurationToEndpointConfiguration(ApiConfiguration apiConfiguration) {
         String apiName = apiConfiguration.getName();
         String config = PATH_CONFIG + SLASH + apiName;
-        List<Endpoint> endpoints = apiConfiguration.getOperations().entrySet().stream()
+        List<Endpoint> endpoints = apiConfiguration.getPaths().entrySet().stream()
                 .map(entry -> {
                     String href = PATH_MOCK_API + SLASH + apiName + SLASH + entry.getKey();
                     String method = entry.getValue().getMethod().toUpperCase();
@@ -44,34 +44,34 @@ public final class MappingUtils {
     }
 
     public static ApiResponse mapApiConfigurationToApiResponse(ApiConfiguration apiConfiguration,
-                                                               String operationName, String method,
+                                                               String path, String method,
                                                                String authorization) {
         ApiResponse apiResponse = new ApiResponse();
 
-        if(Objects.isNull(apiConfiguration) || !apiConfiguration.getOperations().containsKey(operationName)) {
-            String message = String.format("There are no configuration for operation [%s]", operationName);
+        if(Objects.isNull(apiConfiguration) || !apiConfiguration.getPaths().containsKey(path)) {
+            String message = String.format("There are no configuration for path [%s]", path);
             log.warn(message);
             apiResponse.setStatusCode(NOT_FOUND_CODE);
             apiResponse.setBody(ResponseError.newError(message));
             return apiResponse;
         }
 
-        ApiOperation operation = apiConfiguration.findOperation(operationName);
+        ApiPath apiPath = apiConfiguration.findPath(path);
 
         if(apiConfiguration.isSecured() && !apiConfiguration.getAuthConfig().equalsIgnoreCase(authorization)) {
-            String message = String.format("UNAUTHORIZED missing or wrong auth info for [%s]", operationName);
+            String message = String.format("UNAUTHORIZED missing or wrong auth info for [%s]", path);
             log.warn(message);
             apiResponse.setStatusCode(UNAUTHORIZED);
             apiResponse.setBody(ResponseError.newError(message));
             return apiResponse;
         }
 
-        if(method.equalsIgnoreCase(operation.getMethod())) {
-            apiResponse.setHeaders(operation.getHeaders());
-            apiResponse.setStatusCode(operation.getStatusCode());
-            apiResponse.setBody(operation.getBody());
+        if(method.equalsIgnoreCase(apiPath.getMethod())) {
+            apiResponse.setHeaders(apiPath.getHeaders());
+            apiResponse.setStatusCode(apiPath.getStatusCode());
+            apiResponse.setBody(apiPath.getBody());
         } else {
-            String message = String.format("METHOD NOT ALLOWED for operation [%s]", operationName);
+            String message = String.format("METHOD NOT ALLOWED for path [%s]", path);
             log.warn(message);
             apiResponse.setStatusCode(METHOD_NOT_ALLOWED);
             apiResponse.setBody(ResponseError.newError(message));

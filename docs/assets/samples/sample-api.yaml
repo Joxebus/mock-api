@@ -1,6 +1,18 @@
 ---
-name: "sample-api"
-operations:
+name: "secured-api-v2"
+description: "This is sample API to mock REST endpoint"
+termsOfService: "http://example.com/terms/"
+version: "1.0.1"
+contact:
+  name: "API Support"
+  url: "http://www.example.com/support"
+  email: "support@example.com"
+license:
+  name: "Apache 2.0"
+  url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+secured: true
+authConfig: "am94ZWJ1czpNb2NrQVBJ"
+paths:
   GLOSARY:
     method: "get"
     headers:

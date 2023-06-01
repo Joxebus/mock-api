@@ -16,15 +16,18 @@ public class EndpointConfigurationSerializer extends StdSerializer<EndpointConfi
     }
 
     @Override
-    public void serialize(EndpointConfiguration value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(EndpointConfiguration endpointConfiguration, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
-        gen.writeStringField("config", value.getConfig());
+        genEndpointConfiguration(endpointConfiguration, gen);
+        gen.writeEndObject();
+    }
+
+    private void genEndpointConfiguration(EndpointConfiguration endpointConfiguration, JsonGenerator gen) throws IOException {
+        gen.writeStringField("config", endpointConfiguration.getConfig());
         gen.writeArrayFieldStart("endpoints");
-        for(Endpoint endpoint: value.getEndpoints()) {
+        for(Endpoint endpoint: endpointConfiguration.getEndpoints()) {
             gen.writeObject(endpoint);
-            //endpointSerializer.genEndpoint(endpoint, gen);
         }
         gen.writeEndArray();
-        gen.writeEndObject();
     }
 }
