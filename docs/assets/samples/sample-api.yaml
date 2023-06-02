@@ -13,7 +13,7 @@ license:
 secured: true
 authConfig: "am94ZWJ1czpNb2NrQVBJ"
 paths:
-  GLOSARY:
+  GLOSSARY:
     method: "get"
     headers:
       author:

@@ -20,7 +20,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"name\": \"secured-api-v2\",\n  \"description\": \"This is sample API to mock REST endpoint\",\n  \"termsOfService\": \"http://example.com/terms/\",\n  \"contact\": {\n    \"name\": \"API Support\",\n    \"url\": \"http://www.example.com/support\",\n    \"email\": \"support@example.com\"\n  },\n  \"license\": {\n    \"name\": \"Apache 2.0\",\n    \"url\": \"https://www.apache.org/licenses/LICENSE-2.0.html\"\n  },\n  \"version\": \"1.0.1\",\n  \"secured\": true,\n  \"authConfig\": \"am94ZWJ1czpNb2NrQVBJ\",\n  \"paths\": {\n    \"GLOSARY\": {\n      \"method\": \"get\",\n      \"headers\": {\n        \"author\": [\n          \"Omar Bautista\", \"Joxebus\"\n        ]\n      },\n      \"statusCode\": 200,\n      \"body\": \"{\\n  \\\"ID\\\": \\\"SGML\\\",\\n  \\\"SortAs\\\": \\\"SGML\\\",\\n  \\\"GlossTerm\\\": \\\"Standard Generalized Markup Language\\\",\\n  \\\"Acronym\\\": \\\"SGML\\\",\\n  \\\"Abbrev\\\": \\\"ISO 8879:1986\\\",\\n  \\\"GlossDef\\\": {\\n    \\\"para\\\": \\\"A meta-markup language, used to create markup languages such as DocBook.\\\",\\n    \\\"GlossSeeAlso\\\": [\\\"GML\\\", \\\"XML\\\"]\\n  },\\n  \\\"GlossSee\\\": \\\"markup\\\"\\n}\"\n    },\n    \"MENU\": {\n      \"method\": \"put\",\n      \"headers\": {\n        \"author\": [\n          \"Omar Bautista\", \"Joxebus\"\n        ]\n      },\n      \"statusCode\": 202,\n      \"body\": \"{\\\"menu\\\": {\\n  \\\"id\\\": \\\"file\\\",\\n  \\\"value\\\": \\\"File\\\",\\n  \\\"popup\\\": {\\n    \\\"menuitem\\\": [\\n      {\\\"value\\\": \\\"New\\\", \\\"onclick\\\": \\\"CreateNewDoc()\\\"},\\n      {\\\"value\\\": \\\"Open\\\", \\\"onclick\\\": \\\"OpenDoc()\\\"},\\n      {\\\"value\\\": \\\"Close\\\", \\\"onclick\\\": \\\"CloseDoc()\\\"}\\n    ]\\n  }\\n}}\"\n    },\n    \"CREATE_PERSON\": {\n      \"method\": \"post\",\n      \"headers\": {\n        \"author\": [\n          \"Omar Bautista\", \"Joxebus\"\n        ]\n      },\n      \"statusCode\": 201,\n      \"body\": null\n    },\n    \"FAILURE\": {\n      \"method\": \"delete\",\n      \"headers\": {\n        \"author\": [\n          \"Omar Bautista\", \"Joxebus\"\n        ]\n      },\n      \"statusCode\": 500,\n      \"body\": \"{\\n  \\\"message\\\": \\\"This is a custom error configured on the Mock API\\\"\\n}\"\n    }\n  }\n}"
+					"raw": "{\n  \"name\": \"secured-api-v2\",\n  \"description\": \"This is sample API to mock REST endpoint\",\n  \"termsOfService\": \"http://example.com/terms/\",\n  \"contact\": {\n    \"name\": \"API Support\",\n    \"url\": \"http://www.example.com/support\",\n    \"email\": \"support@example.com\"\n  },\n  \"license\": {\n    \"name\": \"Apache 2.0\",\n    \"url\": \"https://www.apache.org/licenses/LICENSE-2.0.html\"\n  },\n  \"version\": \"1.0.1\",\n  \"secured\": true,\n  \"authConfig\": \"am94ZWJ1czpNb2NrQVBJ\",\n  \"paths\": {\n    \"GLOSSARY\": {\n      \"method\": \"get\",\n      \"headers\": {\n        \"author\": [\n          \"Omar Bautista\", \"Joxebus\"\n        ]\n      },\n      \"statusCode\": 200,\n      \"body\": \"{\\n  \\\"ID\\\": \\\"SGML\\\",\\n  \\\"SortAs\\\": \\\"SGML\\\",\\n  \\\"GlossTerm\\\": \\\"Standard Generalized Markup Language\\\",\\n  \\\"Acronym\\\": \\\"SGML\\\",\\n  \\\"Abbrev\\\": \\\"ISO 8879:1986\\\",\\n  \\\"GlossDef\\\": {\\n    \\\"para\\\": \\\"A meta-markup language, used to create markup languages such as DocBook.\\\",\\n    \\\"GlossSeeAlso\\\": [\\\"GML\\\", \\\"XML\\\"]\\n  },\\n  \\\"GlossSee\\\": \\\"markup\\\"\\n}\"\n    },\n    \"MENU\": {\n      \"method\": \"put\",\n      \"headers\": {\n        \"author\": [\n          \"Omar Bautista\", \"Joxebus\"\n        ]\n      },\n      \"statusCode\": 202,\n      \"body\": \"{\\\"menu\\\": {\\n  \\\"id\\\": \\\"file\\\",\\n  \\\"value\\\": \\\"File\\\",\\n  \\\"popup\\\": {\\n    \\\"menuitem\\\": [\\n      {\\\"value\\\": \\\"New\\\", \\\"onclick\\\": \\\"CreateNewDoc()\\\"},\\n      {\\\"value\\\": \\\"Open\\\", \\\"onclick\\\": \\\"OpenDoc()\\\"},\\n      {\\\"value\\\": \\\"Close\\\", \\\"onclick\\\": \\\"CloseDoc()\\\"}\\n    ]\\n  }\\n}}\"\n    },\n    \"CREATE_PERSON\": {\n      \"method\": \"post\",\n      \"headers\": {\n        \"author\": [\n          \"Omar Bautista\", \"Joxebus\"\n        ]\n      },\n      \"statusCode\": 201,\n      \"body\": null\n    },\n    \"FAILURE\": {\n      \"method\": \"delete\",\n      \"headers\": {\n        \"author\": [\n          \"Omar Bautista\", \"Joxebus\"\n        ]\n      },\n      \"statusCode\": 500,\n      \"body\": \"{\\n  \\\"message\\\": \\\"This is a custom error configured on the Mock API\\\"\\n}\"\n    }\n  }\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/config",
@@ -114,7 +114,7 @@
 			"response": []
 		},
 		{
-			"name": "GET Sample API GLOSARY",
+			"name": "GET Sample API GLOSSARY",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -130,7 +130,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/api/secured-api-v2/GLOSARY",
+					"raw": "http://localhost:8080/api/secured-api-v2/GLOSSARY",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -139,7 +139,7 @@
 					"path": [
 						"api",
 						"secured-api-v2",
-						"GLOSARY"
+						"GLOSSARY"
 					]
 				}
 			},
