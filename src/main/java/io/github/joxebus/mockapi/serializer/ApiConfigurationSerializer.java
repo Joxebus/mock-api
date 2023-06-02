@@ -8,15 +8,21 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import io.github.joxebus.mockapi.model.ApiConfiguration;
+import io.github.joxebus.mockapi.model.ApiContact;
+import io.github.joxebus.mockapi.model.ApiLicense;
 import io.github.joxebus.mockapi.model.ApiPath;
 
 public class ApiConfigurationSerializer extends StdSerializer<ApiConfiguration> {
 
     private final ApiPathSerializer apiOperationSerializer;
+    private final ApiContactSerializer apiContactSerializer;
+    private final ApiLicenseSerializer apiLicenseSerializer;
 
     public ApiConfigurationSerializer(Class<ApiConfiguration> type) {
         super(type);
         this.apiOperationSerializer = new ApiPathSerializer(ApiPath.class);
+        this.apiContactSerializer = new ApiContactSerializer(ApiContact.class);
+        this.apiLicenseSerializer = new ApiLicenseSerializer(ApiLicense.class);
     }
 
     @Override
@@ -31,8 +37,12 @@ public class ApiConfigurationSerializer extends StdSerializer<ApiConfiguration> 
         gen.writeStringField("description", apiConfiguration.getDescription());
         gen.writeStringField("termsOfService", apiConfiguration.getTermsOfService());
         gen.writeStringField("version", apiConfiguration.getVersion());
-        gen.writeObjectField("contact", apiConfiguration.getContact());
-        gen.writeObjectField("license", apiConfiguration.getLicense());
+        gen.writeObjectFieldStart("contact");
+        apiContactSerializer.genApiContact(apiConfiguration.getContact(), gen);
+        gen.writeEndObject();
+        gen.writeObjectFieldStart("license");
+        apiLicenseSerializer.genApiLicense(apiConfiguration.getLicense(), gen);
+        gen.writeEndObject();
         gen.writeBooleanField("secured", apiConfiguration.isSecured());
         gen.writeStringField("authConfig", apiConfiguration.getAuthConfig());
         gen.writeObjectFieldStart("paths");
