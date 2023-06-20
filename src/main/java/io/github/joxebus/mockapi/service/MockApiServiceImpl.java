@@ -1,5 +1,6 @@
 package io.github.joxebus.mockapi.service;
 
+import static io.github.joxebus.mockapi.common.Constants.HEADER_AUTH;
 import static io.github.joxebus.mockapi.common.Constants.NOT_FOUND_CODE;
 import static io.github.joxebus.mockapi.common.Constants.PATH_MOCK_API_LENGTH;
 import static io.github.joxebus.mockapi.common.Constants.SLASH;
@@ -31,7 +32,7 @@ public class MockApiServiceImpl implements MockApiService {
     public ApiResponse getMockApiOperation(HttpServletRequest request) {
         String uri = request.getRequestURI();
         String method = request.getMethod();
-        String authorization = request.getHeader("Authorization");
+        String authorization = request.getHeader(HEADER_AUTH);
         String[] uriParts = uri.substring(PATH_MOCK_API_LENGTH+1).split(SLASH);
         String fileName = uriParts[0];
         String operationName = uriParts[1];

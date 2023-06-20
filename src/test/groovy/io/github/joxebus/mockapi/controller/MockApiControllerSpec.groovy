@@ -120,4 +120,55 @@ class MockApiControllerSpec extends Specification {
         glossary.statusCode == HttpStatus.UNAUTHORIZED
         glossary.body.message == "UNAUTHORIZED missing or wrong auth info for [GLOSSARY]"
     }
+
+    def "Test when the mock api is invalid"() {
+        given:
+        String baseAPI = "/api/non-exist"
+
+        HttpHeaders requestHeaders = new HttpHeaders()
+        requestHeaders.setContentType(MediaType.APPLICATION_JSON)
+
+        when:
+        def entity = testRestTemplate.exchange("${baseAPI}/SOMETHING", HttpMethod.GET, new HttpEntity<>(requestHeaders), Map)
+
+        then:
+        entity.statusCode == HttpStatus.NOT_FOUND
+        entity.body.message == "Configuration not found for URI [/api/non-exist/SOMETHING]"
+    }
+
+    def "Test when the mock api is valid but the path is invalid"() {
+        given:
+        String jsonApiConfig = FileUtil.getTextFromFile("configuration_unsecured.json")
+        String baseAPI = "/api/unsecured-api"
+
+        HttpHeaders requestHeaders = new HttpHeaders()
+        requestHeaders.setContentType(MediaType.APPLICATION_JSON)
+        HttpEntity<String> data = new HttpEntity<>(jsonApiConfig, requestHeaders)
+        testRestTemplate.postForEntity("/config", data, Map)
+
+        when:
+        def entity = testRestTemplate.exchange("${baseAPI}/SOMETHING", HttpMethod.GET, new HttpEntity<>(requestHeaders), Map)
+
+        then:
+        entity.statusCode == HttpStatus.NOT_FOUND
+        entity.body.message == "There are no configuration for path [SOMETHING] on api [/api/unsecured-api]"
+    }
+
+    def "Test METHOD NOT ALLOWED for api"() {
+        given:
+        String jsonApiConfig = FileUtil.getTextFromFile("configuration_unsecured.json")
+        String baseAPI = "/api/unsecured-api"
+
+        HttpHeaders requestHeaders = new HttpHeaders()
+        requestHeaders.setContentType(MediaType.APPLICATION_JSON)
+        HttpEntity<String> data = new HttpEntity<>(jsonApiConfig, requestHeaders)
+        testRestTemplate.postForEntity("/config", data, Map)
+
+        when:
+        def entity = testRestTemplate.exchange("${baseAPI}/GLOSSARY", HttpMethod.POST, new HttpEntity<>(requestHeaders), Map)
+
+        then:
+        entity.statusCode == HttpStatus.METHOD_NOT_ALLOWED
+        entity.body.message == "METHOD NOT ALLOWED for path [GLOSSARY]"
+    }
 }

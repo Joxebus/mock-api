@@ -14,7 +14,6 @@ public interface Constants {
 
     // HTTP Headers
     String HEADER_AUTH = "Authorization";
-    String HEADER_CONTENT_TYPE = "Authorization";
 
     // URL constants
     String SLASH = "/";

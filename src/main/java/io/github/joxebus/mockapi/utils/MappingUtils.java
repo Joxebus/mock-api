@@ -49,7 +49,7 @@ public final class MappingUtils {
         ApiResponse apiResponse = new ApiResponse();
 
         if(Objects.isNull(apiConfiguration) || !apiConfiguration.getPaths().containsKey(path)) {
-            String message = String.format("There are no configuration for path [%s]", path);
+            String message = String.format("There are no configuration for path [%s] on api [/api/%s]", path, apiConfiguration.getName());
             log.warn(message);
             apiResponse.setStatusCode(NOT_FOUND_CODE);
             apiResponse.setBody(ResponseError.newError(message));
