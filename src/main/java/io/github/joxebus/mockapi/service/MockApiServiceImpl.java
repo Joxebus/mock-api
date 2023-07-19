@@ -30,12 +30,13 @@ public class MockApiServiceImpl implements MockApiService {
 
     @Override
     public ApiResponse getMockApiOperation(HttpServletRequest request) {
-        String uri = request.getRequestURI();
+        String uri = request.getRequestURI().substring(PATH_MOCK_API_LENGTH+1);
+        log.info("Start request for URI: {}", uri);
         String method = request.getMethod();
         String authorization = request.getHeader(HEADER_AUTH);
-        String[] uriParts = uri.substring(PATH_MOCK_API_LENGTH+1).split(SLASH);
+        String[] uriParts = uri.split(SLASH);
         String fileName = uriParts[0];
-        String operationName = uriParts[1];
+        String operationName = uri.substring(fileName.length()+1);
         FileResponse fileResponse = fileService.download(fileName+YAML_EXT);
         ApiResponse apiResponse = null;
         if(fileResponse.isSuccess()) {
@@ -48,6 +49,7 @@ public class MockApiServiceImpl implements MockApiService {
             apiResponse.setStatusCode(NOT_FOUND_CODE);
             apiResponse.setBody(ResponseError.newError(message));
         }
+        log.info("Finish request for URI: {} with response: {}", uri, apiResponse);
         return apiResponse;
     }
 
