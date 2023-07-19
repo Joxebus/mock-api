@@ -1,6 +1,7 @@
 package io.github.joxebus.mockapi.serializer;
 
 import java.io.IOException;
+import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -23,7 +24,10 @@ public class EndpointSerializer extends StdSerializer<Endpoint> {
 
     public void genEndpoint(Endpoint endpoint, JsonGenerator gen) throws IOException {
         gen.writeStringField("href", endpoint.getHref());
-        gen.writeStringField("method", endpoint.getMethod());
-        gen.writeNumberField("statusCode", endpoint.getStatusCode());
+        gen.writeArrayFieldStart("operations");
+        for(Map<String, Object> operation: endpoint.getOperations()) {
+            gen.writeObject(operation);
+        }
+        gen.writeEndArray();
     }
 }

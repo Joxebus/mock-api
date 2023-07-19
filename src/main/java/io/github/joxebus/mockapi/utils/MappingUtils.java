@@ -9,8 +9,11 @@ import static io.github.joxebus.mockapi.common.Constants.UNAUTHORIZED;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -36,9 +39,13 @@ public final class MappingUtils {
         List<Endpoint> endpoints = apiConfiguration.getPaths().entrySet().stream()
                 .map(entry -> {
                     String href = PATH_MOCK_API + SLASH + apiName + SLASH + entry.getKey();
-                    String method = entry.getValue().getMethod().toUpperCase();
-                    int statusCode = entry.getValue().getStatusCode();
-                    return new Endpoint(href, method, statusCode);
+                    List<Map<String, Object>> operations = entry.getValue()
+                            .stream()
+                            .map( apiPath -> {
+                                Map<String, Object> operation = Map.of("method", apiPath.getMethod(), "statusCode", apiPath.getStatusCode());
+                                return operation;
+                }).collect(Collectors.toList());
+                    return new Endpoint(href, operations);
                 }).collect(Collectors.toList());
         return new EndpointConfiguration(config, endpoints);
     }
@@ -56,7 +63,17 @@ public final class MappingUtils {
             return apiResponse;
         }
 
-        ApiPath apiPath = apiConfiguration.findPath(path);
+        Optional<ApiPath> apiPathOptional = apiConfiguration.findPath(path, method);
+
+        if(!apiPathOptional.isPresent()) {
+            String message = String.format("There are no configuration for path [%s] on api [/api/%s]", path, apiConfiguration.getName());
+            log.warn(message);
+            apiResponse.setStatusCode(NOT_FOUND_CODE);
+            apiResponse.setBody(ResponseError.newError(message));
+            return apiResponse;
+        }
+
+        ApiPath apiPath = apiPathOptional.get();
 
         if(apiConfiguration.isSecured() && !apiConfiguration.getAuthConfig().equalsIgnoreCase(authorization)) {
             String message = String.format("UNAUTHORIZED missing or wrong auth info for [%s]", path);

@@ -1,5 +1,8 @@
 package io.github.joxebus.mockapi.model;
 
+import java.util.List;
+import java.util.Map;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +16,5 @@ import lombok.ToString;
 @AllArgsConstructor
 public class Endpoint {
     private String href;
-    private String method;
-    private int statusCode;
+    private List<Map<String, Object>> operations;
 }

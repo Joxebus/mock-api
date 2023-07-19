@@ -1,7 +1,9 @@
 package io.github.joxebus.mockapi.model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,9 +25,11 @@ public class ApiConfiguration {
     private ApiLicense license;
     private boolean secured;
     private String authConfig;
-    private Map<String, ApiPath> paths = new HashMap<>();
+    private Map<String, List<ApiPath>> paths = new HashMap<>();
 
-    public ApiPath findPath(String operationName) {
-        return paths.get(operationName);
+    public Optional<ApiPath> findPath(String operationName, String method) {
+        List<ApiPath> apiPaths = paths.get(operationName);
+        return apiPaths.stream().filter( apiPath -> method.equalsIgnoreCase(apiPath.getMethod()))
+                .findFirst();
     }
 }

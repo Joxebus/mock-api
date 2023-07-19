@@ -1,6 +1,7 @@
 package io.github.joxebus.mockapi.serializer;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -46,10 +47,12 @@ public class ApiConfigurationSerializer extends StdSerializer<ApiConfiguration> 
         gen.writeBooleanField("secured", apiConfiguration.isSecured());
         gen.writeStringField("authConfig", apiConfiguration.getAuthConfig());
         gen.writeObjectFieldStart("paths");
-        for(Map.Entry<String, ApiPath> apiOperationEntry : apiConfiguration.getPaths().entrySet()) {
-            gen.writeObjectFieldStart(apiOperationEntry.getKey());
-            apiOperationSerializer.genApiPath(apiOperationEntry.getValue(), gen);
-            gen.writeEndObject();
+        for(Map.Entry<String, List<ApiPath>> apiOperationEntry : apiConfiguration.getPaths().entrySet()) {
+            gen.writeArrayFieldStart(apiOperationEntry.getKey());
+            for(ApiPath apiPath: apiOperationEntry.getValue()) {
+                gen.writeObject(apiPath);
+            }
+            gen.writeEndArray();
         }
         gen.writeEndObject();
     }
