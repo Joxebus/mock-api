@@ -1,5 +1,6 @@
 package io.github.joxebus.mockapi.model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,10 @@ public class ApiConfiguration {
     private boolean secured;
     private String authConfig;
     private Map<String, List<ApiPath>> paths = new HashMap<>();
+
+    public List<ApiPath> findPath(String operationName) {
+        return paths.getOrDefault(operationName, Collections.emptyList());
+    }
 
     public Optional<ApiPath> findPath(String operationName, String method) {
         List<ApiPath> apiPaths = paths.get(operationName);

@@ -63,9 +63,9 @@ public final class MappingUtils {
             return apiResponse;
         }
 
-        Optional<ApiPath> apiPathOptional = apiConfiguration.findPath(path, method);
+        List<ApiPath> apiPathList = apiConfiguration.findPath(path);
 
-        if(!apiPathOptional.isPresent()) {
+        if(apiPathList.isEmpty()) {
             String message = String.format("There are no configuration for path [%s] on api [/api/%s]", path, apiConfiguration.getName());
             log.warn(message);
             apiResponse.setStatusCode(NOT_FOUND_CODE);
@@ -73,7 +73,7 @@ public final class MappingUtils {
             return apiResponse;
         }
 
-        ApiPath apiPath = apiPathOptional.get();
+        ApiPath apiPath = apiConfiguration.findPath(path, method).get();
 
         if(apiConfiguration.isSecured() && !apiConfiguration.getAuthConfig().equalsIgnoreCase(authorization)) {
             String message = String.format("UNAUTHORIZED missing or wrong auth info for [%s]", path);

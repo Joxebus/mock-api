@@ -133,7 +133,7 @@ class MockApiControllerSpec extends Specification {
 
         then:
         entity.statusCode == HttpStatus.NOT_FOUND
-        entity.body.message == "Configuration not found for URI [/api/non-exist/SOMETHING]"
+        entity.body.message == "There are no configuration for path [SOMETHING] on api [/api/unsecured-api]"
     }
 
     def "Test when the mock api is valid but the path is invalid"() {

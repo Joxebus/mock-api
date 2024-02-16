@@ -15,7 +15,7 @@
   "secured": true,
   "authConfig": "am94ZWJ1czpNb2NrQVBJ",
   "paths": {
-    "GLOSSARY": {
+    "GLOSSARY": [{
       "method": "get",
       "headers": {
         "author": [
@@ -24,8 +24,8 @@
       },
       "statusCode": 200,
       "body": "{\n  \"ID\": \"SGML\",\n  \"SortAs\": \"SGML\",\n  \"GlossTerm\": \"Standard Generalized Markup Language\",\n  \"Acronym\": \"SGML\",\n  \"Abbrev\": \"ISO 8879:1986\",\n  \"GlossDef\": {\n    \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n    \"GlossSeeAlso\": [\"GML\", \"XML\"]\n  },\n  \"GlossSee\": \"markup\"\n}"
-    },
-    "MENU": {
+    }],
+    "MENU": [{
       "method": "put",
       "headers": {
         "author": [
@@ -34,8 +34,8 @@
       },
       "statusCode": 202,
       "body": "{\"menu\": {\n  \"id\": \"file\",\n  \"value\": \"File\",\n  \"popup\": {\n    \"menuitem\": [\n      {\"value\": \"New\", \"onclick\": \"CreateNewDoc()\"},\n      {\"value\": \"Open\", \"onclick\": \"OpenDoc()\"},\n      {\"value\": \"Close\", \"onclick\": \"CloseDoc()\"}\n    ]\n  }\n}}"
-    },
-    "CREATE_PERSON": {
+    }],
+    "CREATE_PERSON": [{
       "method": "post",
       "headers": {
         "author": [
@@ -44,8 +44,8 @@
       },
       "statusCode": 201,
       "body": null
-    },
-    "FAILURE": {
+    }],
+    "FAILURE": [{
       "method": "delete",
       "headers": {
         "author": [
@@ -54,6 +54,6 @@
       },
       "statusCode": 500,
       "body": "{\n  \"message\": \"This is a custom error configured on the Mock API\"\n}"
-    }
+    }]
   }
 }
