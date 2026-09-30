@@ -6,6 +6,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,8 +29,13 @@ public class ConfigurationController {
         return buildResponseWithHeaders(configurationService.createOrUpdateConfiguration(apiConfiguration));
     }
 
-    @GetMapping(value = PATH_CONFIG+"/{apiName}", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
+    @GetMapping(value = PATH_CONFIG+"/{apiName}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> configByApiName(@PathVariable String apiName) {
         return buildResponseWithHeaders(configurationService.getConfiguration(apiName));
+    }
+
+    @DeleteMapping(value = PATH_CONFIG+"/{apiName}", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> deleteConfig(@PathVariable String apiName) {
+        return buildResponseWithHeaders(configurationService.deleteConfiguration(apiName));
     }
 }

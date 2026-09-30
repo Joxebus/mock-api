@@ -63,6 +63,26 @@
 			"response": []
 		},
 		{
+			"name": "Delete Configuration",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/config/secured-api-v2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"config",
+						"secured-api-v2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "List Endpoints",
 			"request": {
 				"method": "GET",

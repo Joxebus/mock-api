@@ -1,5 +1,6 @@
 package io.github.joxebus.mockapi.service;
 
+import static io.github.joxebus.mockapi.common.Constants.BAD_REQUEST_CODE;
 import static io.github.joxebus.mockapi.common.Constants.CREATED_CODE;
 import static io.github.joxebus.mockapi.common.Constants.INTERNAL_SERVER_ERROR;
 import static io.github.joxebus.mockapi.common.Constants.NOT_FOUND_CODE;
@@ -10,6 +11,9 @@ import static io.github.joxebus.mockapi.utils.MappingUtils.mapApiConfigurationTo
 import static io.github.joxebus.mockapi.utils.MappingUtils.mapYamlFileToApiConfiguration;
 
 import java.io.File;
+import java.util.Optional;
+
+import io.github.joxebus.mockapi.utils.ApiConfigurationValidator;
 
 import org.springframework.stereotype.Service;
 
@@ -33,7 +37,14 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     @Override
     public ApiResponse createOrUpdateConfiguration(ApiConfiguration apiConfiguration) {
         ApiResponse apiResponse = new ApiResponse();
-        // TODO validate ApiConfiguration before save it
+        Optional<String> validationError = ApiConfigurationValidator.validate(apiConfiguration);
+        if(validationError.isPresent()) {
+            String message = validationError.get();
+            log.warn("Invalid configuration: {}", message);
+            apiResponse.setStatusCode(BAD_REQUEST_CODE);
+            apiResponse.setBody(ResponseError.newError(message));
+            return apiResponse;
+        }
         File configuration = mapApiConfigurationToYamlFile(apiConfiguration);
         FileResponse fileResponse = fileService.upload(apiConfiguration.getName() + YAML_EXT, configuration);
         if(fileResponse.isSuccess()) {
@@ -54,6 +65,23 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         if(fileResponse.isSuccess()) {
             apiResponse.setStatusCode(OK_CODE);
             apiResponse.setBody(mapYamlFileToApiConfiguration(fileResponse.getFile()));
+        } else {
+            String message = String.format("The configuration [%s] does not exist.", apiName);
+            log.warn(message);
+            apiResponse.setStatusCode(NOT_FOUND_CODE);
+            apiResponse.setBody(ResponseError.newError(message));
+        }
+        return apiResponse;
+    }
+
+    @Override
+    public ApiResponse deleteConfiguration(String apiName) {
+        ApiResponse apiResponse = new ApiResponse();
+        FileResponse fileResponse = fileService.delete(apiName+YAML_EXT);
+        if(fileResponse.isSuccess()) {
+            String message = String.format("The configuration [%s] was deleted.", apiName);
+            apiResponse.setStatusCode(OK_CODE);
+            apiResponse.setBody(ResponseError.newError(message));
         } else {
             String message = String.format("The configuration [%s] does not exist.", apiName);
             log.warn(message);
