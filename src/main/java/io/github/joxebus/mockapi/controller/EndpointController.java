@@ -20,12 +20,12 @@ public class EndpointController {
         this.endpointService = endpointService;
     }
 
-    @GetMapping(value = PATH_ENDPOINT, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
+    @GetMapping(value = PATH_ENDPOINT, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> availableEndpoints() {
         return buildResponseWithHeaders(endpointService.getEndpoints());
     }
 
-    @GetMapping(value = PATH_ENDPOINT+"/{apiName}", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
+    @GetMapping(value = PATH_ENDPOINT+"/{apiName}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> endpoints(@PathVariable String apiName) {
         return buildResponseWithHeaders(endpointService.getEndpoint(apiName));
     }

@@ -11,5 +11,7 @@ public interface FileService {
 
     FileResponse download(String filename);
 
+    FileResponse delete(String filename);
+
     List<String> filesWithExtension(String extension);
 }

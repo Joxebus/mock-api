@@ -7,5 +7,6 @@ public interface ConfigurationService {
 
     ApiResponse createOrUpdateConfiguration(ApiConfiguration apiConfiguration);
     ApiResponse getConfiguration(String apiName);
+    ApiResponse deleteConfiguration(String apiName);
 
 }

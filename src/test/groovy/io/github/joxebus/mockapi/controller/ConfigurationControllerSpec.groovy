@@ -44,6 +44,90 @@ class ConfigurationControllerSpec extends Specification {
 
     }
 
+    def "Test create a configuration fails with bad request when invalid"() {
+        given: "An invalid configuration payload"
+        HttpHeaders requestHeaders = new HttpHeaders()
+        requestHeaders.setContentType(MediaType.APPLICATION_JSON)
+        HttpEntity<String> data = new HttpEntity<>(jsonApiConfig, requestHeaders)
+
+        when: "The configuration is created"
+        def entity = testRestTemplate.postForEntity("/config", data, Map)
+
+        then:
+        entity.statusCode == HttpStatus.BAD_REQUEST
+
+        where:
+        scenario                      | jsonApiConfig
+        "missing name"                | '''{
+            "paths": {
+                "GLOSSARY": [
+                    { "method": "get", "statusCode": 200, "body": "{}" }
+                ]
+            }
+        }'''
+        "blank name"                  | '''{
+            "name": "   ",
+            "paths": {
+                "GLOSSARY": [
+                    { "method": "get", "statusCode": 200, "body": "{}" }
+                ]
+            }
+        }'''
+        "empty paths"                 | '''{
+            "name": "empty-paths-api",
+            "paths": {}
+        }'''
+        "operation with empty list"   | '''{
+            "name": "empty-op-api",
+            "paths": {
+                "GLOSSARY": []
+            }
+        }'''
+        "path with blank method"      | '''{
+            "name": "blank-method-api",
+            "paths": {
+                "GLOSSARY": [
+                    { "method": "", "statusCode": 200, "body": "{}" }
+                ]
+            }
+        }'''
+        "path with invalid statusCode"| '''{
+            "name": "bad-status-api",
+            "paths": {
+                "GLOSSARY": [
+                    { "method": "get", "statusCode": 999, "body": "{}" }
+                ]
+            }
+        }'''
+        "secured without authConfig"  | '''{
+            "name": "secured-no-auth-api",
+            "secured": true,
+            "paths": {
+                "GLOSSARY": [
+                    { "method": "get", "statusCode": 200, "body": "{}" }
+                ]
+            }
+        }'''
+        "duplicate method in operation"| '''{
+            "name": "dup-method-api",
+            "paths": {
+                "GLOSSARY": [
+                    { "method": "get", "statusCode": 200, "body": "{}" },
+                    { "method": "get", "statusCode": 500, "body": "{}" }
+                ]
+            }
+        }'''
+        "duplicate method different case"| '''{
+            "name": "dup-method-case-api",
+            "paths": {
+                "GLOSSARY": [
+                    { "method": "get", "statusCode": 200, "body": "{}" },
+                    { "method": "GET", "statusCode": 500, "body": "{}" }
+                ]
+            }
+        }'''
+    }
+
     def "Test config/apiName returns the API configuration available"() {
         given:
         String jsonApiConfig = FileUtil.getTextFromFile("configuration_secured.json")
@@ -86,6 +170,42 @@ class ConfigurationControllerSpec extends Specification {
         entity.statusCode == HttpStatus.NOT_FOUND
         entity.body.message == "The configuration [secured-api] does not exist."
 
+    }
+
+    def "Test delete an existing configuration returns 200 and it is no longer available"() {
+        given:
+        String jsonApiConfig = FileUtil.getTextFromFile("configuration_secured.json")
+
+        HttpHeaders requestHeaders = new HttpHeaders()
+        requestHeaders.setContentType(MediaType.APPLICATION_JSON)
+        HttpEntity<String> data = new HttpEntity<>(jsonApiConfig, requestHeaders)
+        testRestTemplate.postForEntity("/config", data, Map)
+
+        when:
+        def entity = testRestTemplate.exchange("/config/secured-api", HttpMethod.DELETE, new HttpEntity<>(requestHeaders), Map)
+
+        then:
+        entity.statusCode == HttpStatus.OK
+        entity.body.message == "The configuration [secured-api] was deleted."
+
+        when:
+        def getEntity = testRestTemplate.exchange("/config/secured-api", HttpMethod.GET, new HttpEntity<>(requestHeaders), Map)
+
+        then:
+        getEntity.statusCode == HttpStatus.NOT_FOUND
+    }
+
+    def "Test delete a non-existent configuration returns 404"() {
+        given:
+        HttpHeaders requestHeaders = new HttpHeaders()
+        requestHeaders.setContentType(MediaType.APPLICATION_JSON)
+
+        when:
+        def entity = testRestTemplate.exchange("/config/secured-api", HttpMethod.DELETE, new HttpEntity<>(requestHeaders), Map)
+
+        then:
+        entity.statusCode == HttpStatus.NOT_FOUND
+        entity.body.message == "The configuration [secured-api] does not exist."
     }
 
 }

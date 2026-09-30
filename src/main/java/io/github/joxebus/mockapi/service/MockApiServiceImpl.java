@@ -43,7 +43,7 @@ public class MockApiServiceImpl implements MockApiService {
             ApiConfiguration apiConfiguration = mapYamlFileToApiConfiguration(fileResponse.getFile());
             apiResponse = mapApiConfigurationToApiResponse(apiConfiguration, operationName, method, authorization);
         } else {
-            String message = String.format("Configuration not found for URI [%s]", uri);
+            String message = String.format("Configuration not found for URI [%s]", request.getRequestURI());
             log.warn(message);
             apiResponse = new ApiResponse();
             apiResponse.setStatusCode(NOT_FOUND_CODE);

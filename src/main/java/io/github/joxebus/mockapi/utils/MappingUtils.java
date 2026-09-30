@@ -66,9 +66,10 @@ public final class MappingUtils {
         Optional<ApiPath> apiPathOptional = apiConfiguration.findPath(path, method);
 
         if(!apiPathOptional.isPresent()) {
-            String message = String.format("There are no configuration for path [%s] on api [/api/%s]", path, apiConfiguration.getName());
+            // The path exists but no configuration matches the requested HTTP method
+            String message = String.format("METHOD NOT ALLOWED for path [%s]", path);
             log.warn(message);
-            apiResponse.setStatusCode(NOT_FOUND_CODE);
+            apiResponse.setStatusCode(METHOD_NOT_ALLOWED);
             apiResponse.setBody(ResponseError.newError(message));
             return apiResponse;
         }
@@ -83,16 +84,9 @@ public final class MappingUtils {
             return apiResponse;
         }
 
-        if(method.equalsIgnoreCase(apiPath.getMethod())) {
-            apiResponse.setHeaders(apiPath.getHeaders());
-            apiResponse.setStatusCode(apiPath.getStatusCode());
-            apiResponse.setBody(apiPath.getBody());
-        } else {
-            String message = String.format("METHOD NOT ALLOWED for path [%s]", path);
-            log.warn(message);
-            apiResponse.setStatusCode(METHOD_NOT_ALLOWED);
-            apiResponse.setBody(ResponseError.newError(message));
-        }
+        apiResponse.setHeaders(apiPath.getHeaders());
+        apiResponse.setStatusCode(apiPath.getStatusCode());
+        apiResponse.setBody(apiPath.getBody());
 
         return apiResponse;
     }
@@ -122,7 +116,9 @@ public final class MappingUtils {
 
     public static ResponseEntity<Object> buildResponseWithHeaders(ApiResponse apiResponse) {
         ResponseEntity.BodyBuilder responseEntityBuilder = ResponseEntity.status(apiResponse.getStatusCode());
-        apiResponse.getHeaders().forEach(responseEntityBuilder::header);
+        if(apiResponse.getHeaders() != null) {
+            apiResponse.getHeaders().forEach(responseEntityBuilder::header);
+        }
         return responseEntityBuilder.body(apiResponse.getBody());
     }
 }

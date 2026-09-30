@@ -7,6 +7,7 @@ public interface Constants {
     // HTTP Status Codes
     int OK_CODE = 200;
     int CREATED_CODE = 201;
+    int BAD_REQUEST_CODE = 400;
     int UNAUTHORIZED = 401;
     int NOT_FOUND_CODE = 404;
     int METHOD_NOT_ALLOWED = 405;

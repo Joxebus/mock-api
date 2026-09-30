@@ -38,12 +38,16 @@ public class ApiConfigurationSerializer extends StdSerializer<ApiConfiguration> 
         gen.writeStringField("description", apiConfiguration.getDescription());
         gen.writeStringField("termsOfService", apiConfiguration.getTermsOfService());
         gen.writeStringField("version", apiConfiguration.getVersion());
-        gen.writeObjectFieldStart("contact");
-        apiContactSerializer.genApiContact(apiConfiguration.getContact(), gen);
-        gen.writeEndObject();
-        gen.writeObjectFieldStart("license");
-        apiLicenseSerializer.genApiLicense(apiConfiguration.getLicense(), gen);
-        gen.writeEndObject();
+        if(apiConfiguration.getContact() != null) {
+            gen.writeObjectFieldStart("contact");
+            apiContactSerializer.genApiContact(apiConfiguration.getContact(), gen);
+            gen.writeEndObject();
+        }
+        if(apiConfiguration.getLicense() != null) {
+            gen.writeObjectFieldStart("license");
+            apiLicenseSerializer.genApiLicense(apiConfiguration.getLicense(), gen);
+            gen.writeEndObject();
+        }
         gen.writeBooleanField("secured", apiConfiguration.isSecured());
         gen.writeStringField("authConfig", apiConfiguration.getAuthConfig());
         gen.writeObjectFieldStart("paths");

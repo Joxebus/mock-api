@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import io.github.joxebus.mockapi.exception.FileServiceException;
 import io.github.joxebus.mockapi.model.FileResponse;
 import io.github.joxebus.mockapi.model.ResponseError;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ public class FileServiceLocal implements FileService {
         FileResponse fileResponse = new FileResponse();
         try {
             if(Objects.isNull(file)) {
-                throw new Exception("Failed to create empty file");
+                throw new FileServiceException("Failed to create empty file");
             }
             String name = filename.isBlank() ? UUID.randomUUID().toString() : filename;
             File destination = new File(fileUploadFolder, name);
@@ -61,10 +62,26 @@ public class FileServiceLocal implements FileService {
         try {
             File downloaded = new File(fileUploadFolder, filename);
             if(!downloaded.exists()) {
-                throw new Exception("File ["+filename+"] doesn't exist");
+                throw new FileServiceException("File ["+filename+"] doesn't exist");
             }
             fileResponse.setSuccess(true);
             fileResponse.setFile(downloaded);
+        } catch(Exception e) {
+            fileResponse.setError(ResponseError.newError(e.getMessage()));
+        }
+        return fileResponse;
+    }
+
+    @Override
+    public FileResponse delete(String filename) {
+        FileResponse fileResponse = new FileResponse();
+        try {
+            File file = new File(fileUploadFolder, filename);
+            if(!file.exists()) {
+                throw new FileServiceException("File ["+filename+"] doesn't exist");
+            }
+            Files.delete(file.toPath());
+            fileResponse.setSuccess(true);
         } catch(Exception e) {
             fileResponse.setError(ResponseError.newError(e.getMessage()));
         }
