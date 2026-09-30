@@ -62,8 +62,8 @@ class EndpointControllerSpec extends Specification {
         apiPaths.body.config == "/config/unsecured-api"
         apiPaths.body.endpoints.size() == 4
         apiPaths.body.endpoints*.href == ["/api/unsecured-api/GLOSSARY", "/api/unsecured-api/MENU", "/api/unsecured-api/CREATE_PERSON", "/api/unsecured-api/FAILURE"]
-        apiPaths.body.endpoints*.method == ["GET", "PUT", "POST", "DELETE"]
-        apiPaths.body.endpoints*.statusCode == [200, 202, 201, 500]
+        apiPaths.body.endpoints*.operations*.method.flatten() == ["get", "put", "post", "delete"]
+        apiPaths.body.endpoints*.operations*.statusCode.flatten() == [200, 202, 201, 500]
 
 
     }
