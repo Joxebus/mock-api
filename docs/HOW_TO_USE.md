@@ -16,6 +16,34 @@ read the configuration from files in your file system (for now!)
   - `/api/{apiName}/{operation}`: As in the [sample-api.yaml](assets/samples/sample-api.yaml "API Configuration Sample")
   you can call for example `/api/sample-api/GLOSARY` and the method should match in the request.
 
+### Configuration format
+
+Under `paths`, **each operation name maps to a list of path definitions** (one entry per HTTP
+method you want to expose on that operation). This is required — a single object instead of a
+list will be rejected with a `400 Bad Request`.
+
+```json
+{
+  "name": "sample-api",
+  "version": "1.0.1",
+  "secured": false,
+  "paths": {
+    "GLOSSARY": [
+      {
+        "method": "get",
+        "headers": { "author": ["Omar Bautista"] },
+        "statusCode": 200,
+        "body": "{\"term\": \"SGML\"}"
+      }
+    ]
+  }
+}
+```
+
+The `contact` and `license` blocks are optional and may be omitted. When `secured` is `true`,
+`authConfig` holds the expected value of the request's `Authorization` header. Each path entry's
+`headers` are echoed back on the mocked response.
+
 ### Postman Collection
 
 A postman [collection](assets/samples/Mock_REST_API.postman_collection.json "Mock REST API Samples") has been provided, you can find it inside the `assets/samples` folder.
